@@ -1,7 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { User } from './model/user.entity';
 
-export const TypeOrmConfigService: TypeOrmModuleAsyncOptions = {
+export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
   inject: [ConfigService],
   useFactory: (configService: ConfigService) => ({
     type: 'postgres',
@@ -10,7 +11,7 @@ export const TypeOrmConfigService: TypeOrmModuleAsyncOptions = {
     username: configService.get('database.username'),
     password: configService.get('database.password'),
     database: configService.get('database.name'),
-    entities: [],
+    entities: [User],
     synchronize: true,
   }),
 };
