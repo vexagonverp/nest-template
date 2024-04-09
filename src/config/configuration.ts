@@ -7,4 +7,7 @@ export const configuration = () => ({
     password: process.env.DATABASE_PASSWORD,
     name: process.env.DATABASE_NAME,
   },
+  client: {
+    clientUrl: (process.env.CLIENT_URL || 'http://localhost:3000').split(','),
+  },
 });
