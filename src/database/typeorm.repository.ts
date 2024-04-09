@@ -12,7 +12,7 @@ import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity
 export class TypeOrmRepository<Entity> {
   constructor(public repository: Repository<Entity>) {}
   async findById(
-    id: string,
+    id: number | string,
     options?: FindOneOptions<Entity>,
   ): Promise<Entity | null> {
     const result = await this.repository.findOne({
