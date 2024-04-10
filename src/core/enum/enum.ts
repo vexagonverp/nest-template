@@ -6,3 +6,9 @@ export enum Order {
   ASC = 'ASC',
   DESC = 'DESC',
 }
+
+export enum UserType {
+  ADMIN = 'admin',
+  EDITOR = 'editor',
+  MODERATOR = 'moderator',
+}
