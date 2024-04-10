@@ -15,16 +15,17 @@ export class UserRepository extends TypeOrmRepository<User> {
   public async getUsersPagination(
     pageOptionsDto: FindUserDto,
   ): Promise<PageDto<User>> {
+    const tags = Array.from(new Set(pageOptionsDto.tag));
     const queryBuilder = this.repository.createQueryBuilder('user');
     queryBuilder
       .orderBy('user.createdAt', pageOptionsDto.order)
       .innerJoin(`user.tags`, `tags`)
       .andWhere(`tags.name IN (:...tagArr)`, {
-        tagArr: pageOptionsDto.tag,
+        tagArr: tags,
       });
     //Strict
     // .groupBy('user.id')
-    // .having('COUNT(user.id) = :count', { count: pageOptionsDto.tag.length });
+    // .having('COUNT(user.id) = :count', { count: tags.length });
 
     queryBuilder.skip(pageOptionsDto.skip).take(pageOptionsDto.take);
     const itemCount = await queryBuilder.getCount();
