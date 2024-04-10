@@ -3,6 +3,9 @@ import { UserRepository } from '../repository/user.repository';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { EditUserDto } from '../dto/edit-user.dto copy';
 import { UserError } from '../../core/enum/enum';
+import { PageOptionsDto } from '../../database/dto/page-option.dto';
+import { UserDto } from '../dto/user.dto';
+import { plainToClass, plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -13,11 +16,16 @@ export class UserService {
     if (!user) {
       throw new HttpException(UserError.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
-    return user;
+    return plainToClass(UserDto, user);
   }
-  async getUserList() {
-    const result = await this.userRepository.find({}, { withDeleted: false });
-    return result;
+  async getUserList(pageOptionsDto: PageOptionsDto) {
+    const result = await this.userRepository.getUsersPagination(pageOptionsDto);
+    return {
+      ...result,
+      data: plainToInstance(UserDto, result.data, {
+        excludeExtraneousValues: true,
+      }),
+    };
   }
 
   async createUser(user: CreateUserDto) {

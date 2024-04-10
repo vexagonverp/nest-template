@@ -7,19 +7,33 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { EditUserDto } from '../dto/edit-user.dto copy';
 import { ApiBody } from '@nestjs/swagger';
+import { PageOptionsDto } from '../../database/dto/page-option.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Get()
-  async getUserList(@Res() res: Response) {
-    return res.status(HttpStatus.OK).send(await this.userService.getUserList());
+  async getUserList(
+    @Query() pageOptionsDto: PageOptionsDto,
+    @Res() res: Response,
+  ) {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.getUserList(pageOptionsDto));
+  }
+
+  @Get(':id')
+  async getUser(@Param('id') id: number, @Res() res: Response) {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.findOneById(id));
   }
 
   @Post()
