@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { BaseModel } from './base.entity';
+import { Tag } from './tag.entity';
 
 @Entity()
 export class User extends BaseModel {
@@ -8,4 +9,8 @@ export class User extends BaseModel {
 
   @Column()
   userName: string;
+
+  @ManyToMany(() => Tag, (tag) => tag.users)
+  @JoinTable()
+  tags: Tag[];
 }

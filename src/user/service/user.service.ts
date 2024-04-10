@@ -3,9 +3,9 @@ import { UserRepository } from '../repository/user.repository';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { EditUserDto } from '../dto/edit-user.dto copy';
 import { UserError } from '../../core/enum/enum';
-import { PageOptionsDto } from '../../database/dto/page-option.dto';
 import { UserDto } from '../dto/user.dto';
 import { plainToClass, plainToInstance } from 'class-transformer';
+import { FindUserDto } from '../dto/find-user.dto';
 
 @Injectable()
 export class UserService {
@@ -18,7 +18,7 @@ export class UserService {
     }
     return plainToClass(UserDto, user);
   }
-  async getUserList(pageOptionsDto: PageOptionsDto) {
+  async getUserList(pageOptionsDto: FindUserDto) {
     const result = await this.userRepository.getUsersPagination(pageOptionsDto);
     return {
       ...result,

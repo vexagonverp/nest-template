@@ -14,14 +14,14 @@ import { Response } from 'express';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { EditUserDto } from '../dto/edit-user.dto copy';
 import { ApiBody } from '@nestjs/swagger';
-import { PageOptionsDto } from '../../database/dto/page-option.dto';
+import { FindUserDto } from '../dto/find-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   @Get()
   async getUserList(
-    @Query() pageOptionsDto: PageOptionsDto,
+    @Query() pageOptionsDto: FindUserDto,
     @Res() res: Response,
   ) {
     return res
